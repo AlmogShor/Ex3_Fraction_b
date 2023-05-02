@@ -14,10 +14,16 @@ namespace ariel {
     class Fraction {
     public:
         // Constructors
-        Fraction();
-        Fraction(int numerator = 0, int denominator = 1);
-        Fraction(double value);
-        Fraction(Fraction const &other);
+        Fraction(); // Default constructor
+        Fraction(int numerator, int denominator); // Conversion constructor
+        Fraction(double value); // Conversion constructor from float
+        Fraction(Fraction const &other); // Copy constructor
+        Fraction &operator=(const Fraction &other); // Copy assignment operator
+        Fraction(Fraction &&other) noexcept;        //Move constructor
+        Fraction &operator=(Fraction &&other) noexcept; // Move assignment operator
+
+        //Destructor
+        ~Fraction() = default;
 
         // Getters
         int getNumerator() const;
@@ -72,8 +78,8 @@ namespace ariel {
         friend bool operator>=(double val, const Fraction &frac);
 
         // Input and output operators
-        friend std::istream &operator>>(std::istream &is, Fraction &frac);
-        friend std::ostream &operator<<(std::ostream &os, const Fraction &frac);
+        friend std::istream &operator>>(std::istream &in_s, Fraction &frac);
+        friend std::ostream &operator<<(std::ostream &out_s, const Fraction &frac);
 
     private:
         int _numerator;
@@ -81,7 +87,7 @@ namespace ariel {
 
         // Helper functions
         void normalize();
-        int gcd(int a, int b) const;
+        int gcd(int num1, int num2) const;
     };
 
 } // namespace ariel

@@ -28,24 +28,48 @@ namespace ariel {
 
     Fraction::Fraction(Fraction const &other) : _numerator(other._numerator), _denominator(other._denominator) {}
 
+    Fraction &Fraction::operator=(const Fraction &other){ // Copy assignment operator
+        if (this != &other) {
+            _numerator = other._numerator;
+            _denominator = other._denominator;
+        }
+        return *this;
+    }
+    Fraction::Fraction(Fraction &&other) noexcept{   //Move constructor
+    _numerator = other._numerator;
+    _denominator = other._denominator;
+}
+Fraction &Fraction::operator=(Fraction &&other) noexcept{ // Move assignment operator
+if (this != &other) {
+_numerator = other._numerator;
+_denominator = other._denominator;
+}
+return *this;
+}
+
+//Destructor
+~Fraction() = default;
+
 // Getters
     int Fraction::getNumerator() const {
         return _numerator;
     }
 
     int Fraction::getDenominator() const {
+
         return _denominator;
     }
 
+
 // Arithmetic operators
     Fraction Fraction::operator+(const Fraction &other) const {
-        int lcm = std::lcm(_denominator, other._denominator);
+        int lcm = std::lcm(_denominator, other.getDenominator());
         int numerator_sum = _numerator * (lcm / _denominator) + other._numerator * (lcm / other._denominator);
         return Fraction(numerator_sum, lcm);
     }
 
     Fraction Fraction::operator-(const Fraction &other) const {
-        int lcm = std::lcm(_denominator, other._denominator);
+        int lcm = std::lcm(_denominator, other.getDenominator());
         int numerator_diff = _numerator * (lcm / _denominator) - other._numerator * (lcm / other._denominator);
         return Fraction(numerator_diff, lcm);
     }
@@ -229,8 +253,8 @@ namespace ariel {
         }
     }
 
-    int Fraction::gcd(int a, int b) const {
-        return b == 0 ? a : gcd(b, a % b);
+    int Fraction::gcd(int num1, int num2) const {
+        return num2 == 0 ? num1 : gcd(num2, num1 % num2);
     }
 
 } // namespace ariel
