@@ -23,7 +23,7 @@ namespace ariel {
         Fraction &operator=(Fraction &&other) noexcept; // Move assignment operator
 
         //Destructor
-        ~Fraction() = default;
+        ~Fraction();
 
         // Getters
         int getNumerator() const;
@@ -87,6 +87,7 @@ namespace ariel {
 
         // Helper functions
         void normalize();
+        void normalize(int num, int den);
         int gcd(int num1, int num2) const;
     };
 

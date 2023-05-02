@@ -20,7 +20,7 @@ namespace ariel {
     }
 
     Fraction::Fraction(double value) {
-        const int precision = 10000; // You can adjust the precision here
+        const int precision = 1000; // You can adjust the precision here
         _denominator = precision;
         _numerator = static_cast<int>(round(value * precision));
         normalize();
@@ -48,7 +48,9 @@ return *this;
 }
 
 //Destructor
-~Fraction() = default;
+Fraction::~Fraction() {
+
+    }
 
 // Getters
     int Fraction::getNumerator() const {
@@ -245,6 +247,16 @@ return *this;
 // Helper functions
     void Fraction::normalize() {
         int gcd_value = gcd(_numerator, _denominator);
+        _numerator /= gcd_value;
+        _denominator /= gcd_value;
+        if (_denominator < 0) {
+            _numerator = -_numerator;
+            _denominator = -_denominator;
+        }
+    }
+
+    void Fraction::normalize(int num, int den) {
+        int gcd_value = gcd(num, den);
         _numerator /= gcd_value;
         _denominator /= gcd_value;
         if (_denominator < 0) {
