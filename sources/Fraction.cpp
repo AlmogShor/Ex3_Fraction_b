@@ -214,7 +214,7 @@ namespace ariel {
     }
 
     std::ostream &operator<<(std::ostream &os, const Fraction &frac) {
-        os << frac.get_numerator() << "/" << frac.get_denominator();
+        os << frac.getNumerator() << "/" << frac.getDenominator();
         return os;
     }
 
