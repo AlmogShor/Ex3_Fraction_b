@@ -90,7 +90,7 @@ namespace ariel {
         Fraction operator--(int); // postfix decrement operator
     };
 
-    // non-member functions for arithmetic operations
+    // non-member functions for arithmetic operations - is it necessary?
     Fraction operator+(const Fraction &lhs, const Fraction &rhs);
 
     Fraction operator-(const Fraction &lhs, const Fraction &rhs);
@@ -99,17 +99,17 @@ namespace ariel {
 
     Fraction operator/(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator==(const Fraction &lhs, const Fraction &rhs);
+    bool operator==(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator!=(const Fraction &lhs, const Fraction &rhs);
+    bool operator!=(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator<(const Fraction &lhs, const Fraction &rhs);
+    bool operator<(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator<=(const Fraction &lhs, const Fraction &rhs);
+    bool operator<=(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator>(const Fraction &lhs, const Fraction &rhs);
+    bool operator>(const Fraction &lhs, const Fraction &rhs);
 
-    friend bool operator>=(const Fraction &lhs, const Fraction &rhs);
+    bool operator>=(const Fraction &lhs, const Fraction &rhs);
 
     Fraction operator+(const Fraction &lhs, double d);
 

@@ -1,6 +1,6 @@
 #include <sstream>
 #include "doctest.h"
-#include "sources/Fraction.hpp"
+#include "sources/old_Fraction.hpp"
 #include <limits>
 #include <vector>
 

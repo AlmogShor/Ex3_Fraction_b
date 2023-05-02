@@ -1,6 +1,6 @@
 #include "doctest.h"
 #include <stdexcept>
-#include "sources/Fraction.hpp"
+#include "sources/old_Fraction.hpp"
 #include <iostream>
 #include <algorithm> // For __gcd; taken from the internet
 #include <typeinfo> // For typeid(...)
