@@ -2,8 +2,10 @@
 // Created by shora on 2/05/2023.
 //
 
-#ifndef EX3_FRACTION_B_FRACTION_HPP
-#define EX3_FRACTION_B_FRACTION_HPP
+//#ifndef EX3_FRACTION_B_FRACTION_HPP
+//#define EX3_FRACTION_B_FRACTION_HPP
+
+#pragma once
 
 #include <iostream>
 
@@ -18,8 +20,8 @@ namespace ariel {
         Fraction(Fraction const &other);
 
         // Getters
-        int get_numerator() const;
-        int get_denominator() const;
+        int getNumerator() const;
+        int getDenominator() const;
 
         // Arithmetic operators
         Fraction operator+(const Fraction &other) const;
@@ -84,4 +86,4 @@ namespace ariel {
 
 } // namespace ariel
 
-#endif //EX3_FRACTION_B_FRACTION_HPP
+//#endif //EX3_FRACTION_B_FRACTION_HPP

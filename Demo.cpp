@@ -11,7 +11,7 @@
 #include <stdexcept>
 using namespace std;
 
-#include "sources/old_Fraction.hpp"
+#include "sources/Fraction.hpp"
 
 using namespace ariel;
 

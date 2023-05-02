@@ -29,11 +29,11 @@ namespace ariel {
     Fraction::Fraction(Fraction const &other) : _numerator(other._numerator), _denominator(other._denominator) {}
 
 // Getters
-    int Fraction::get_numerator() const {
+    int Fraction::getNumerator() const {
         return _numerator;
     }
 
-    int Fraction::get_denominator() const {
+    int Fraction::getDenominator() const {
         return _denominator;
     }
 
