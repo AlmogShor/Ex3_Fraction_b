@@ -265,7 +265,7 @@ std::istream &operator>>(std::istream &i_s, Fraction &frac) {
     frac._denominator = denominator;
     frac._numerator = numerator;
     // Reduce frac.
-    frac.reduce();
+    frac.normalize();
     return i_s;
 }
 
