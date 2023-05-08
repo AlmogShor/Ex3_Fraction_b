@@ -63,6 +63,9 @@ namespace ariel {
         friend Fraction operator/(const Fraction &frac, double val);
         friend Fraction operator/(double val, const Fraction &frac);
 
+        //helper for friend arithmetic operators for mixed types
+        static Fraction from_double(double num);
+
         // Friend comparison operators for mixed types
         friend bool operator==(const Fraction &frac, double val);
         friend bool operator==(double val, const Fraction &frac);
