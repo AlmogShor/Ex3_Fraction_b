@@ -20,9 +20,11 @@ namespace ariel {
     }
 
     Fraction::Fraction(double value) {
-        const int precision = 1000; // You can adjust the precision here
-        _denominator = precision;
-        _numerator = static_cast<int>(round(value * precision));
+        _denominator = 1000;
+        _numerator = static_cast<int>(round(value * _denominator));
+        int gcd_value = std::gcd(_numerator, _denominator);
+        _numerator /= gcd_value;
+        _denominator /= gcd_value;
         normalize();
     }
 
@@ -263,10 +265,7 @@ std::istream &operator>>(std::istream &i_s, Fraction &frac) {
     }
 
     // Assign the data and return the input.
-    frac._denominator = denominator;
-    frac._numerator = numerator;
-    // Reduce frac.
-    frac.normalize();
+    frac = Fraction(numerator, denominator);
     return i_s;
 }
 
