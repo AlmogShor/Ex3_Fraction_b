@@ -36,9 +36,18 @@ namespace ariel {
         return *this;
     }
 
-    Fraction::Fraction(Fraction &&other) noexcept : _numerator(other._numerator), _denominator(other._denominator) {} // Move constructor
+    Fraction::Fraction(Fraction &&other)
 
-Fraction &Fraction::operator=(Fraction &&other) noexcept { // Move assignment operator
+    noexcept :
+    _numerator(other
+    ._numerator),
+    _denominator(other
+    ._denominator) {
+} // Move constructor
+
+Fraction &Fraction::operator=(Fraction &&other)
+
+noexcept { // Move assignment operator
 if (this != &other) {
 _numerator = other._numerator;
 _denominator = other._denominator;
@@ -141,22 +150,20 @@ Fraction Fraction::operator--(int) {
 }
 
 // Friend arithmetic operators for mixed types
-Fraction operator+(const Fraction &f1, double num) {
-    Fraction f2 = Fraction::from_double(num);
-    int lcm = std::lcm(f1._denominator, f2._denominator);
-    int numer = f1._numerator * (lcm / f1._denominator) + f2._numerator * (lcm / f2._denominator);
-    return Fraction(numer, lcm);
+Fraction operator+(const Fraction &frac, double val) {
+    return frac + Fraction::from_double(val);
 }
 
 Fraction operator+(double val, const Fraction &frac) {
-    return Fraction(val) + frac;
+    return Fraction::from_double(val) + frac;
 }
 
-Fraction operator-(const Fraction &f1, double num) {
-    Fraction f2 = Fraction::from_double(num);
-    int lcm = std::lcm(f1._denominator, f2._denominator);
-    int numer = f1._numerator * (lcm / f1._denominator) - f2._numerator * (lcm / f2._denominator);
-    return Fraction(numer, lcm);
+Fraction operator-(const Fraction &frac, double val) {
+    return frac - Fraction::from_double(val);
+}
+
+Fraction operator-(double val, const Fraction &frac) {
+    return Fraction::from_double(val) - frac;
 }
 
 //helper friend function
@@ -167,12 +174,14 @@ Fraction Fraction::from_double(double num) {
         num *= 10;
         denom *= 10;
     }
-    return Fraction(static_cast<int64_t>(num), denom);
+    int64_t numer = static_cast<int64_t>(num);
+    int64_t gcd = std::gcd(numer, denom);
+    return Fraction(numer / gcd, denom / gcd);
 }
 
-Fraction operator-(double val, const Fraction &frac) {
-    return Fraction(val) - frac;
-}
+//Fraction operator-(double val, const Fraction &frac) {
+//    return Fraction(val) - frac;
+//} duplicate
 
 Fraction operator*(const Fraction &frac, double val) {
     return frac * Fraction(val);
@@ -240,28 +249,24 @@ bool operator>=(double val, const Fraction &frac) {
 }
 
 // Input and output operators
-std::istream &operator>>(std::istream &is, Fraction &frac) {
+std::istream &operator>>(std::istream &i_s, Fraction &frac) {
     int numerator, denominator;
-    char separator;
-    is >> numerator;
-    if (!is) {
-        return is;
+    // Insert to the input stream.
+    i_s >> numerator >> denominator;
+    // If denominator is 0, throw exception.
+    if (denominator == 0) {
+        throw std::runtime_error("You can't assign 0 to the fraction's denominator!");
     }
-    is >> separator;
-    if (!is || (separator != '/' && separator != ',' && !std::isspace(separator))) {
-        is.setstate(std::ios::failbit);
-        throw std::invalid_argument("Invalid separator");
+    // If frac is null, throw i_s.
+    if (!i_s) {
+        return i_s;
     }
-    // If separator is a space or comma, we need to consume it
-    if (separator == ' ' || separator == ',') {
-        is.get();
-    }
-    is >> denominator;
-    if (!is) {
-        return is;
-    }
-    frac = Fraction(numerator, denominator);
-    return is;
+    // Assign the data and return the input.
+    frac._denominator = denominator;
+    frac._numerator = numerator;
+    // Reduce frac.
+    frac.reduce();
+    return i_s;
 }
 
 
