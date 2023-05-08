@@ -16,7 +16,7 @@ namespace ariel {
         // Constructors
         Fraction(); // Default constructor
         Fraction(int numerator, int denominator); // Conversion constructor
-        Fraction(double value); // Conversion constructor from float
+        Fraction(float value); // Conversion constructor from float
         Fraction(Fraction const &other); // Copy constructor
         Fraction &operator=(const Fraction &other); // Copy assignment operator
         Fraction(Fraction &&other) noexcept;        //Move constructor

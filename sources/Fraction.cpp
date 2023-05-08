@@ -19,14 +19,7 @@ namespace ariel {
         normalize();
     }
 
-    Fraction::Fraction(double value) {
-        _denominator = 1000;
-        _numerator = static_cast<int>(round(value * _denominator));
-        int gcd_value = std::gcd(_numerator, _denominator);
-        _numerator /= gcd_value;
-        _denominator /= gcd_value;
-        normalize();
-    }
+    Fraction::Fraction(float num1) : Fraction((int)(num1 * 1000), 1000){}
 
     Fraction::Fraction(Fraction const &other) : _numerator(other._numerator), _denominator(other._denominator) {}
 
@@ -153,37 +146,21 @@ Fraction Fraction::operator--(int) {
 
 // Friend arithmetic operators for mixed types
 Fraction operator+(const Fraction &frac, double val) {
-    return frac + Fraction::from_double(val);
+    return frac + Fraction(val);
 }
 
 Fraction operator+(double val, const Fraction &frac) {
-    return Fraction::from_double(val) + frac;
+    return Fraction(val) + frac;
 }
 
 Fraction operator-(const Fraction &frac, double val) {
-    return frac - Fraction::from_double(val);
+    return frac - Fraction(val);
 }
 
 Fraction operator-(double val, const Fraction &frac) {
-    return Fraction::from_double(val) - frac;
+    return Fraction(val) - frac;
 }
 
-//helper friend function
-Fraction Fraction::from_double(double num) {
-    const double epsilon = 1e-10;
-    int64_t denom = 1;
-    while (std::abs(num - static_cast<int64_t>(num)) > epsilon && denom <= 1000000) {
-        num *= 10;
-        denom *= 10;
-    }
-    int64_t numer = static_cast<int64_t>(num);
-    int64_t gcd = std::gcd(numer, denom);
-    return Fraction(numer / gcd, denom / gcd);
-}
-
-//Fraction operator-(double val, const Fraction &frac) {
-//    return Fraction(val) - frac;
-//} duplicate
 
 Fraction operator*(const Fraction &frac, double val) {
     return frac * Fraction(val);
