@@ -253,14 +253,15 @@ std::istream &operator>>(std::istream &i_s, Fraction &frac) {
     int numerator, denominator;
     // Insert to the input stream.
     i_s >> numerator >> denominator;
+    // If frac is null, throw input.
+    if (i_s.fail()) {
+        throw std::runtime_error("Error: Input failed");
+    }
     // If denominator is 0, throw exception.
     if (denominator == 0) {
         throw std::runtime_error("You can't assign 0 to the fraction's denominator!");
     }
-    // If frac is null, throw i_s.
-    if (!i_s) {
-        return i_s;
-    }
+
     // Assign the data and return the input.
     frac._denominator = denominator;
     frac._numerator = numerator;
