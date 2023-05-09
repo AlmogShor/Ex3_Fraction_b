@@ -19,7 +19,7 @@ namespace ariel {
         normalize();
     }
 
-    Fraction::Fraction(float num1) : Fraction((int)(num1 * 1000), 1000){}
+    Fraction::Fraction(float num1) : Fraction((int) (num1 * 1000), 1000) {}
 
     Fraction::Fraction(Fraction const &other) : _numerator(other._numerator), _denominator(other._denominator) {}
 
@@ -65,17 +65,38 @@ int Fraction::getDenominator() const {
 // Arithmetic operators
 Fraction Fraction::operator+(const Fraction &other) const {
     int lcm = std::lcm(_denominator, other.getDenominator());
-    int numerator_sum = _numerator * (lcm / _denominator) + other._numerator * (lcm / other._denominator);
-    return Fraction(numerator_sum, lcm);
+    int numerator_sum1 = _numerator * (lcm / _denominator);
+    int numerator_sum2 = other._numerator * (lcm / other._denominator);
+
+    if (add_overflow(numerator_sum1, numerator_sum2)) {
+        throw std::overflow_error("Overflow in addition");
+    }
+
+    return Fraction(numerator_sum1 + numerator_sum2, lcm);
 }
 
 Fraction Fraction::operator-(const Fraction &other) const {
     int lcm = std::lcm(_denominator, other.getDenominator());
-    int numerator_diff = _numerator * (lcm / _denominator) - other._numerator * (lcm / other._denominator);
-    return Fraction(numerator_diff, lcm);
+    int numerator_diff1 = _numerator * (lcm / _denominator);
+    int numerator_diff2 = other._numerator * (lcm / other._denominator);
+
+    if (sub_overflow(numerator_diff1, numerator_diff2)) {
+        throw std::overflow_error("Overflow in subtraction");
+    }
+
+
+    int result_numerator = numerator_diff1 - numerator_diff2;
+
+
+    return Fraction(result_numerator, lcm);
 }
 
+
 Fraction Fraction::operator*(const Fraction &other) const {
+    if (mul_overflow(_numerator, other._numerator) || mul_overflow(_denominator, other._denominator)) {
+        throw std::overflow_error("Overflow in multiplication");
+    }
+
     return Fraction(_numerator * other._numerator, _denominator * other._denominator);
 }
 
@@ -83,6 +104,11 @@ Fraction Fraction::operator/(const Fraction &other) const {
     if (other._numerator == 0) {
         throw std::runtime_error("Division by zero");
     }
+
+    if (mul_overflow(_numerator, other._denominator) || mul_overflow(_denominator, other._numerator)) {
+        throw std::overflow_error("Overflow in division");
+    }
+
     return Fraction(_numerator * other._denominator, _denominator * other._numerator);
 }
 
@@ -276,6 +302,26 @@ void Fraction::normalize(int num, int den) {
 int Fraction::gcd(int num1, int num2) const {
     return num2 == 0 ? num1 : gcd(num2, num1 % num2);
 }
+
+// overflow check functions
+bool Fraction::add_overflow(int num1, int num2) const {
+    return ((num2 > 0) && (num1 > std::numeric_limits<int>::max() - num2)) ||
+           ((num2 < 0) && (num1 < std::numeric_limits<int>::min() - num2));
+}
+
+bool Fraction::mul_overflow(int num1, int num2) const {
+    if (num1 == 0 || num2 == 0) {
+        return false;
+    }
+    int result = num1 * num2;
+    return num1 != result / num2;
+}
+
+bool Fraction::sub_overflow(int num1, int num2) const {
+    return ((num2 > 0) && (num1 < std::numeric_limits<int>::min() + num2)) ||
+           ((num2 < 0) && (num1 > std::numeric_limits<int>::max() + num2));
+}
+
 
 } // namespace ariel
 
